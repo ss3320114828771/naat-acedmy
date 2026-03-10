@@ -125,21 +125,21 @@ export default function InformationPage() {
       role: "Founder & Administrator",
       email: "sajid.syed@gmail.com",
       expertise: "Quran & Naat Studies",
-      image: "/images/n1.jpeg"
+      image: "/n1.jpeg"
     },
     {
       name: "Qari Abdul Rahman",
       role: "Senior Naat Instructor",
       email: "abdul.r@naatacademy.com",
       expertise: "Tajweed & Naat",
-      image: "/images/n2.jpeg"
+      image: "/n2.jpeg"
     },
     {
       name: "Ustadha Fatima Khan",
       role: "Islamic Education Director",
       email: "fatima.k@naatacademy.com",
       expertise: "Islamic Studies",
-      image: "/images/n3.jpeg"
+      image: "/n3.jpeg"
     }
   ]
 
