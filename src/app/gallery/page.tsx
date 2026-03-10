@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 
-// Gallery images data
+// Gallery images data with correct paths
 const galleryImages = [
   // Event Images (1-6)
   { id: 1, src: '/n1.jpeg', title: 'Annual Naat Night 2024', category: 'events', date: 'March 2024', location: 'Islamic Center NYC' },
@@ -13,7 +13,7 @@ const galleryImages = [
   { id: 5, src: '/n5.jpeg', title: 'Eid Celebration', category: 'events', date: 'April 2024', location: 'Community Center' },
   { id: 6, src: '/n6.jpeg', title: 'Youth Workshop', category: 'events', date: 'February 2024', location: 'Education Hall' },
   
-  // Duplicate for variety (using same images with different titles)
+  // Students images
   { id: 7, src: '/n1.jpeg', title: 'Students Reciting Naat', category: 'students', date: 'March 2024', location: 'Classroom A' },
   { id: 8, src: '/n2.jpeg', title: 'Graduation Ceremony', category: 'students', date: 'December 2023', location: 'Main Hall' },
   { id: 9, src: '/n3.jpeg', title: 'Learning Session', category: 'students', date: 'January 2024', location: 'Library' },
@@ -21,7 +21,7 @@ const galleryImages = [
   { id: 11, src: '/n5.jpeg', title: 'Workshop', category: 'students', date: 'March 2024', location: 'Conference Room' },
   { id: 12, src: '/n6.jpeg', title: 'Study Circle', category: 'students', date: 'April 2024', location: 'Prayer Hall' },
   
-  // More duplicates for products
+  // Products images
   { id: 13, src: '/n1.jpeg', title: 'Quran Collection', category: 'products', date: '2024', location: 'Bookstore' },
   { id: 14, src: '/n2.jpeg', title: 'Prayer Mats', category: 'products', date: '2024', location: 'Gift Shop' },
   { id: 15, src: '/n3.jpeg', title: 'Digital Quran', category: 'products', date: '2024', location: 'Electronics' },
@@ -43,6 +43,7 @@ export default function GalleryPage() {
   const [selectedImage, setSelectedImage] = useState<null | typeof galleryImages[0]>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [viewMode, setViewMode] = useState<'grid' | 'masonry'>('grid')
+  const [imageErrors, setImageErrors] = useState<Record<number, boolean>>({})
 
   useEffect(() => {
     setMounted(true)
@@ -55,6 +56,11 @@ export default function GalleryPage() {
                          img.location.toLowerCase().includes(searchQuery.toLowerCase())
     return matchesCategory && matchesSearch
   })
+
+  // Handle image error
+  const handleImageError = (id: number) => {
+    setImageErrors(prev => ({ ...prev, [id]: true }))
+  }
 
   // Close lightbox
   const closeLightbox = () => setSelectedImage(null)
@@ -226,9 +232,10 @@ export default function GalleryPage() {
             <p className="text-gray-400">Try adjusting your search or filter</p>
           </div>
         ) : (
-          <div className={viewMode === 'grid' 
-            ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'
-            : 'columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6'
+          <div className={
+            viewMode === 'grid' 
+              ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6'
+              : 'columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-6'
           }>
             {filteredImages.map((image, index) => {
               const gradients = [
@@ -240,23 +247,36 @@ export default function GalleryPage() {
                 'from-fuchsia-500 to-pink-500'
               ]
               const gradient = gradients[index % gradients.length]
+              const hasError = imageErrors[image.id]
               
               return viewMode === 'grid' ? (
                 // Grid View
                 <div
                   key={image.id}
-                  onClick={() => setSelectedImage(image)}
-                  className="group relative cursor-pointer transform hover:scale-105 transition-all duration-500 hover:rotate-1"
+                  onClick={() => !hasError && setSelectedImage(image)}
+                  className={`group relative cursor-pointer transform hover:scale-105 transition-all duration-500 hover:rotate-1 ${
+                    hasError ? 'cursor-default' : 'cursor-pointer'
+                  }`}
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-500`}></div>
                   <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/20 group-hover:border-pink-500/50 transition-all duration-500">
                     <div className="relative h-64 w-full">
-                      <Image
-                        src={image.src}
-                        alt={image.title}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-700"
-                      />
+                      {!hasError ? (
+                        <Image
+                          src={image.src}
+                          alt={image.title}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-700"
+                          onError={() => handleImageError(image.id)}
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-purple-500 to-pink-500">
+                          <div className="text-center text-white p-4">
+                            <div className="text-4xl mb-2">🖼️</div>
+                            <p className="text-sm">Image unavailable</p>
+                          </div>
+                        </div>
+                      )}
                       <div className={`absolute inset-0 bg-gradient-to-t ${gradient} opacity-0 group-hover:opacity-60 transition-opacity duration-500`}></div>
                       
                       {/* Overlay Content */}
@@ -274,20 +294,32 @@ export default function GalleryPage() {
                 // Masonry View
                 <div
                   key={image.id}
-                  onClick={() => setSelectedImage(image)}
-                  className={`group relative cursor-pointer mb-6 break-inside-avoid transform hover:scale-105 transition-all duration-500`}
+                  onClick={() => !hasError && setSelectedImage(image)}
+                  className={`group relative cursor-pointer mb-6 break-inside-avoid transform hover:scale-105 transition-all duration-500 ${
+                    hasError ? 'cursor-default' : 'cursor-pointer'
+                  }`}
                 >
                   <div className={`absolute inset-0 bg-gradient-to-br ${gradient} rounded-2xl blur-xl opacity-0 group-hover:opacity-30 transition-opacity duration-500`}></div>
                   <div className="relative bg-white/10 backdrop-blur-lg rounded-2xl overflow-hidden border border-white/20 group-hover:border-pink-500/50 transition-all duration-500">
                     <div className={`relative ${
                       index % 3 === 0 ? 'h-96' : index % 3 === 1 ? 'h-64' : 'h-80'
                     } w-full`}>
-                      <Image
-                        src={image.src}
-                        alt={image.title}
-                        fill
-                        className="object-cover group-hover:scale-110 transition-transform duration-700"
-                      />
+                      {!hasError ? (
+                        <Image
+                          src={image.src}
+                          alt={image.title}
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-700"
+                          onError={() => handleImageError(image.id)}
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-purple-500 to-pink-500">
+                          <div className="text-center text-white p-4">
+                            <div className="text-4xl mb-2">🖼️</div>
+                            <p className="text-sm">Image unavailable</p>
+                          </div>
+                        </div>
+                      )}
                       <div className={`absolute inset-0 bg-gradient-to-t ${gradient} opacity-0 group-hover:opacity-60 transition-opacity duration-500`}></div>
                       
                       {/* Overlay Content */}
@@ -307,7 +339,7 @@ export default function GalleryPage() {
       </div>
 
       {/* Lightbox Modal */}
-      {selectedImage && (
+      {selectedImage && !imageErrors[selectedImage.id] && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
           {/* Backdrop */}
           <div 
