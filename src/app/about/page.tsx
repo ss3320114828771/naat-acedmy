@@ -26,7 +26,7 @@ export default function AboutPage() {
       id: 1,
       name: 'Hafiz Sajid Syed',
       role: 'Founder & Administrator',
-      email: 'sajid.syed@gmail.com',
+      email: 'sajidsyedhafizsajidsyed@gmail.com',
       expertise: 'Quran & Naat Studies',
       image: '/n1.jpeg',
       social: { twitter: '#', linkedin: '#', facebook: '#' },
