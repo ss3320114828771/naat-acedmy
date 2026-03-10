@@ -81,7 +81,7 @@ export default function DashboardPage() {
       title: 'Salamo Alika',
       artist: 'Mahir Zain',
       duration: '5:15',
-      image: '/images/n2.jpeg',
+      image: '/n2.jpeg',
       plays: 980000
     },
     {
@@ -89,7 +89,7 @@ export default function DashboardPage() {
       title: 'Akkia Ya Habeeb',
       artist: 'Mahir Zain',
       duration: '3:48',
-      image: '/images/n3.jpeg',
+      image: '/n3.jpeg',
       plays: 750000
     },
     {
@@ -97,7 +97,7 @@ export default function DashboardPage() {
       title: 'Rahmatun Lil\'Alameen',
       artist: 'Maher Zain',
       duration: '4:10',
-      image: '/images/n4.jpeg',
+      image: '/n4.jpeg',
       plays: 2100000
     }
   ]
@@ -108,21 +108,21 @@ export default function DashboardPage() {
       id: 1,
       name: 'Digital Quran Pen',
       price: 89.99,
-      image: '/images/n3.jpeg',
+      image: '/n3.jpeg',
       inStock: true
     },
     {
       id: 2,
       name: 'Islamic Wall Art',
       price: 39.99,
-      image: '/images/n6.jpeg',
+      image: '/n6.jpeg',
       inStock: true
     },
     {
       id: 3,
       name: 'Premium Prayer Mat',
       price: 49.99,
-      image: '/images/n2.jpeg',
+      image: '/n2.jpeg',
       inStock: false
     }
   ]
