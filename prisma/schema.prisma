@@ -1,0 +1,39 @@
+// This is your Prisma schema file for Naat Academy
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js" // Must be "prisma-client-js", not "prisma-client"
+  output   = "../src/generated/prisma" // Good practice to keep generated code separate
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Example User model to get you started
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String? // Hashed password
+  role      String   @default("user")
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations (uncomment as you build)
+  // orders    Order[]
+  // cart      Cart?
+}
+
+// You can add more models below
+// model Product {
+//   id          String   @id @default(cuid())
+//   name        String
+//   price       Float
+//   description String?
+//   image       String?
+//   createdAt   DateTime @default(now())
+//   updatedAt   DateTime @updatedAt
+// 
