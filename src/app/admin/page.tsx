@@ -54,11 +54,11 @@ export default function AdminPage() {
   ]
 
   const products = [
-    { id: 1, name: 'Holy Quran', price: '$49.99', stock: 45, sales: 123, image: '/images/n1.jpeg' },
-    { id: 2, name: 'Prayer Mat', price: '$29.99', stock: 32, sales: 89, image: '/images/n2.jpeg' },
-    { id: 3, name: 'Digital Quran Pen', price: '$89.99', stock: 18, sales: 56, image: '/images/n3.jpeg' },
-    { id: 4, name: 'Islamic Books Set', price: '$149.99', stock: 12, sales: 34, image: '/images/n4.jpeg' },
-    { id: 5, name: 'Miswak', price: '$9.99', stock: 67, sales: 145, image: '/images/n5.jpeg' }
+    { id: 1, name: 'Holy Quran', price: '$49.99', stock: 45, sales: 123, image: '/n1.jpeg' },
+    { id: 2, name: 'Prayer Mat', price: '$29.99', stock: 32, sales: 89, image: '/n2.jpeg' },
+    { id: 3, name: 'Digital Quran Pen', price: '$89.99', stock: 18, sales: 56, image: '/n3.jpeg' },
+    { id: 4, name: 'Islamic Books Set', price: '$149.99', stock: 12, sales: 34, image: '/n4.jpeg' },
+    { id: 5, name: 'Miswak', price: '$9.99', stock: 67, sales: 145, image: '/n5.jpeg' }
   ]
 
   const users = [
