@@ -136,7 +136,7 @@ export default function AboutPage() {
       role: 'Student from Malaysia',
       text: 'Amazing collection of naats and excellent teaching methods. Highly recommended!',
       rating: 5,
-      image: '/images/n3.jpeg'
+      image: '/n3.jpeg'
     }
   ]
 
